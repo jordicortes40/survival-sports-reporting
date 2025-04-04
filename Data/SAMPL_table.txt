@@ -1,0 +1,38 @@
+variable	category	n	percentage
+Purpose	Good	138	100.0%
+Dates def.	Good	134	97.1%
+Dates def.	NA	4	2.9%
+Censure	Good	42	30.4%
+Censure	Bad	83	60.1%
+Censure	NA	13	9.4%
+Survival rates	Good	133	96.4%
+Survival rates	NA	5	3.6%
+Assumptions	Good	27	19.6%
+Assumptions	Bad	104	75.4%
+Assumptions	NA	7	5.1%
+Survival prob.	Good	72	52.2%
+Survival prob.	Bad	17	12.3%
+Survival prob.	NA	49	35.5%
+No. risk	Good	8	5.8%
+No. risk	Bad	130	94.2%
+Cumulative plot	Good	19	13.8%
+Cumulative plot	Bad	119	86.2%
+Median	Good	16	19.8%
+Median	Bad	65	80.2%
+Median	NA	57	70.4%
+Graph/table	Good	131	94.9%
+Graph/table	Bad	3	2.2%
+Graph/table	NA	4	2.9%
+Curves	Good	100	81.3%
+Curves	Bad	23	18.7%
+Curves	NA	15	12.2%
+P value	Good	87	70.2%
+P value	Bad	36	29.0%
+P value	NA	1	0.8%
+P value	NA	14	11.3%
+Reg. model	Good	66	51.6%
+Reg. model	Bad	49	38.3%
+Reg. model	NA	13	10.2%
+Reg. model	NA	10	7.8%
+Risk Measure	Good	84	60.9%
+Risk Measure	Bad	54	39.1%
