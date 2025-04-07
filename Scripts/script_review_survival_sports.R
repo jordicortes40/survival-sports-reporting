@@ -54,7 +54,7 @@ head(cbind(t_classification,round(100*p_classification,1)),8)
 summary(d$N)
 
 ##------------------------------------------------------------------------------
-# Second table: Sports Chracteristic
+# Second table: Sports characteristics
 ##------------------------------------------------------------------------------
 
 ##-- Sports
@@ -99,7 +99,7 @@ ggplot(t_sports2, aes(x=sport, y=perc)) +
 
 
 ##------------------------------------------------------------------------------
-# Third table: Statistical analysis
+# Third table: Statistical analyses used in papers
 ##------------------------------------------------------------------------------
 
 ##-- KM estimator
@@ -165,7 +165,6 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
         axis.title = element_text(face='bold'))
   
 
-
 ##-- Software
 d_software <- d %>% select(software) %>% 
   mutate(software = map(software, separate_software)) %>%
@@ -217,8 +216,8 @@ d_sampl <- d_sampl0 %>%
   group_by(variable) %>%
   mutate(percentage = (n / sum(n)) * 100) %>%
   select(variable, category, n, percentage) %>%
-  mutate(category = recode(category,!!!c(No = "Bad",Partial = "Partially", Yes = "Good")))
-   
+  mutate(category = recode(category,!!!c(No = "Bad",Partial = "Partially", Yes = "Good"))) 
+
 d_sampl$variable <- factor(d_sampl$variable,
                            levels=arrange(d_sampl[d_sampl$category=='Good',],-percentage) %>% 
                              select(variable) %>% pull)
