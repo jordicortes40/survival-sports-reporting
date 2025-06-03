@@ -13,7 +13,7 @@ NEW_NAMES <- c('id','title','aim','aim2','include_model','author','country','yea
                'num_risk','plot_cumulative','median_surv','graph_or_table',
                'statistical_methods curves','p_value',
                'reg_model','risk_measure','additional_info','censore_type',
-               'truncation','random_effects','time_dependent')
+               'truncation','random_effects','time_dependent','reason_purpose','reason_purpose_cat')
 
 ##-- SAMPL items
 VAR_SAMPL <- c('purpose','identify_dates_or_events','circumstances_censored',
@@ -22,7 +22,7 @@ VAR_SAMPL <- c('purpose','identify_dates_or_events','circumstances_censored',
                'statistical_methods curves','p_value',
                'reg_model','risk_measure')
 
-VAR_SAMPL_SHORT <- c('Purpose','Dates def.','Censure',
+VAR_SAMPL_SHORT <- c('Purpose','Dates def.','Censoring',
                'Survival rates','Assumptions','Survival prob.',
                'No. risk','Cumulative plot','Median','Graph/table',
                'Curves','P value', 'Reg. model','Risk Measure')
