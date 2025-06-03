@@ -1,40 +1,40 @@
 variable	category	n	percentage
-Purpose	Good	46	33.3%
+Purpose	Well	46	33.3%
 Purpose	Partially	6	4.3%
-Purpose	Bad	86	62.3%
-Dates def.	Good	134	97.1%
+Purpose	Poorly	86	62.3%
+Dates def.	Well	134	97.1%
 Dates def.	Partially	4	2.9%
-Censoring	Good	42	30.4%
+Censoring	Well	42	30.4%
 Censoring	Partially	13	9.4%
-Censoring	Bad	83	60.1%
-Survival rates	Good	133	96.4%
+Censoring	Poorly	83	60.1%
+Survival rates	Well	133	96.4%
 Survival rates	Partially	5	3.6%
-Assumptions	Good	27	19.6%
+Assumptions	Well	27	19.6%
 Assumptions	Partially	7	5.1%
-Assumptions	Bad	104	75.4%
-Survival prob.	Good	72	52.2%
+Assumptions	Poorly	104	75.4%
+Survival prob.	Well	72	52.2%
 Survival prob.	Partially	49	35.5%
-Survival prob.	Bad	17	12.3%
-No. risk	Good	8	5.8%
-No. risk	Bad	130	94.2%
-Cumulative plot	Good	19	13.8%
-Cumulative plot	Bad	119	86.2%
-Median	Good	16	19.8%
-Median	Bad	65	80.2%
+Survival prob.	Poorly	17	12.3%
+No. risk	Well	8	5.8%
+No. risk	Poorly	130	94.2%
+Cumulative plot	Well	19	13.8%
+Cumulative plot	Poorly	119	86.2%
+Median	Well	16	19.8%
+Median	Poorly	65	80.2%
 Median	NA	57	70.4%
-Graph/table	Good	131	94.9%
+Graph/table	Well	131	94.9%
 Graph/table	Partially	4	2.9%
-Graph/table	Bad	3	2.2%
-Curves	Good	100	81.3%
-Curves	Bad	23	18.7%
+Graph/table	Poorly	3	2.2%
+Curves	Well	100	81.3%
+Curves	Poorly	23	18.7%
 Curves	NA	15	12.2%
-P value	Good	87	70.2%
+P value	Well	87	70.2%
 P value	Partially	1	0.8%
-P value	Bad	36	29.0%
+P value	Poorly	36	29.0%
 P value	NA	14	11.3%
-Reg. model	Good	66	51.6%
+Reg. model	Well	66	51.6%
 Reg. model	Partially	13	10.2%
-Reg. model	Bad	49	38.3%
+Reg. model	Poorly	49	38.3%
 Reg. model	NA	10	7.8%
-Risk Measure	Good	84	60.9%
-Risk Measure	Bad	54	39.1%
+Risk Measure	Well	84	60.9%
+Risk Measure	Poorly	54	39.1%

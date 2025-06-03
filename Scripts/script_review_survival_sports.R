@@ -199,9 +199,9 @@ d_sampl_table <- d_sampl0 %>%
   group_by(variable) %>%
   mutate(percentage = (n / sum(n[!is.na(category)])) * 100) %>%
   select(variable, category, n, percentage) %>%
-  mutate(category = recode(category,!!!c(No = "Bad",Partial = "Partially", Yes = "Good"))) %>% 
+  mutate(category = recode(category,!!!c(No = "Poorly",Partial = "Partially", Yes = "Well"))) %>% 
   mutate(variable = factor(variable, levels = VAR_SAMPL_SHORT)) %>% 
-  mutate(category = factor(category, levels = c("Good", "Partially", "Bad"))) %>%
+  mutate(category = factor(category, levels = c("Well", "Partially", "Poorly"))) %>%
   mutate(percentage = paste0(formatC(percentage, digits = 1, format = 'f'),"%")) %>% 
   arrange(variable, category)
 
@@ -216,20 +216,21 @@ d_sampl <- d_sampl0 %>%
   group_by(variable) %>%
   mutate(percentage = (n / sum(n)) * 100) %>%
   select(variable, category, n, percentage) %>%
-  mutate(category = recode(category,!!!c(No = "Bad",Partial = "Partially", Yes = "Good")),
-         label    = paste0(formatC(percentage, format = 'f', digits=1),"%"),
-         pos      = cumsum(percentage) - (percentage / 2))
+  mutate(category = recode(category,!!!c(No = "Poorly",Partial = "Partially", Yes = "Well")),
+         label    = if_else(percentage<3,"",paste0(formatC(percentage, format = 'f', digits=1),"%")),
+         pos      = (cumsum(percentage) - (percentage / 2))/100)
 
 d_sampl$variable <- factor(d_sampl$variable,
-                           levels=arrange(d_sampl[d_sampl$category=='Good',],-percentage) %>% 
+                           levels=arrange(d_sampl[d_sampl$category=='Well',],-percentage) %>% 
                              select(variable) %>% pull)
-d_sampl$category <- factor(d_sampl$category, levels = c("Bad", "Partially", "Good"))
+d_sampl$category <- factor(d_sampl$category, levels = c("Poorly", "Partially", "Well"))
 
 
 ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) + 
   geom_bar(position=position_fill(reverse = TRUE), 
            stat="identity") +
-  geom_text(aes(label = label, y = pos), position = position_fill(reverse = TRUE), size = 3.5, fontface = "bold") +
+  geom_text(aes(label = label, y = pos, color = category), 
+            position = position_identity(), size = 2.5, fontface = "bold") +
   coord_flip() +
   theme(legend.position = 'bottom',
         legend.title = element_blank(),
@@ -238,10 +239,12 @@ ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) +
         legend.text = element_text(face='bold'),
         plot.margin = margin(r = 10)) +
   xlab('') +
-  ylab('Proportion of bad reported') +
+  ylab('Proportion of poorly reported studies') +
   scale_x_discrete(limits=rev) +
   scale_y_continuous(expand   = c(0, 0),
                      sec.axis = sec_axis(transform = ~ 1 - . , 
-                     name ="Proportion of good reported")) + 
-  scale_fill_manual(values=c("#fdb863", "#b8e186", "#286419"))
-
+                                         name      = "Proportion of well-reported studies")) + 
+  scale_fill_manual(values=c("#fdb863", "#b8e186", "#286419")) +
+  scale_color_manual(values = c("Poorly" = "black", "Partially" = "black", "Well" = "white")) +
+  guides(color = guide_none())
+  
