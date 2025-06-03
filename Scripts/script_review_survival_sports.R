@@ -41,6 +41,7 @@ t_year <- d %>% select(year) %>% count(year)
 ggplot(t_year, aes(x=year, y=n)) + 
   geom_line(color='darkblue', linewidth=1) +
   geom_point(color='darkblue', size=3) +
+  # geom_smooth(color='orange', linewidth=0.8, se = FALSE) +
   ylim(0,25) +
   scale_x_continuous(name = 'Year', breaks=2013:2023, minor_breaks = 2013:2023, limits = c(2013, 2023)) +
   ylab('no. articles')
@@ -207,6 +208,10 @@ d_sampl_table <- d_sampl0 %>%
 
 write.table(d_sampl_table,'../Data/SAMPL_table.txt',append = FALSE,
             quote = FALSE, sep = '\t', row.names = FALSE, col.names = TRUE)
+
+##-- Table purpose
+t_purpose <- sort(table(d$reason_purpose_cat), decreasing = TRUE)
+prop.table(t_purpose)
 
 ##-- Plot SAMPL (without NAs)
 d_sampl <- d_sampl0 %>%
