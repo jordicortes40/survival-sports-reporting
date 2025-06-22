@@ -7,9 +7,15 @@ This repository contains the data and analysis code for the manuscript:
 
 ## 📌 Project Summary
 
-This scoping review evaluates the methodological quality and reporting practices of time-to-event (survival) analyses in sports science research. We reviewed 138 peer-reviewed articles published between 2013 and 2023, using the SAMPL (Statistical Analyses and Methods in the Published Literature) guidelines as a reference framework.
+This scoping review evaluates the methodological quality and reporting practices 
+of time-to-event (survival) analyses in sports science research. We reviewed 138 
+peer-reviewed articles published between 2013 and 2023, using the SAMPL 
+(Statistical Analyses and Methods in the Published Literature) guidelines as a 
+reference framework.
 
-The aim is to highlight common reporting shortcomings and provide evidence-based recommendations to improve transparency, reproducibility, and methodological rigor in the application of survival models in sports science.
+The aim is to highlight common reporting shortcomings and provide evidence-based 
+recommendations to improve transparency, reproducibility, and methodological 
+rigor in the application of survival models in sports science.
 
 ---
 
@@ -37,23 +43,22 @@ To reproduce the analysis, you need the following software and R packages instal
 ### Software
 
 - **R** version ≥ 4.2.0  
-- [RStudio (optional but recommended)](https://posit.co/download/rstudio-desktop/)
 
 ### R Packages
 
 The following R packages are required:
 
-- `tidyverse`
-- `here`
+- `readxl`
+- `dplyr`
+- `tidyr`
+- `stringr`
 - `ggplot2`
-- `readr`
-- `knitr`
-- `gridExtra`
+- `purrr`
 
 You can install them by running the following command in R:
 
 ```r
-install.packages(c("tidyverse", "here", "ggplot2", "readr", "knitr", "gridExtra"))
+install.packages(c("readxl", "dplyr", "tidyr", "stringr", "ggplot2", "purrr"))
 ```
 
 ## 📄 License
