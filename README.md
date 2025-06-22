@@ -27,3 +27,37 @@ survival-sports-reporting/
 │   └── functions_review_survival_sport.R
 │
 └── README.md                   # Description and usage instructions
+```
+
+
+## 🔧 Requirements
+
+To reproduce the analysis, you need the following software and R packages installed:
+
+### Software
+
+- **R** version ≥ 4.2.0  
+- [RStudio (optional but recommended)](https://posit.co/download/rstudio-desktop/)
+
+### R Packages
+
+The following R packages are required:
+
+- `tidyverse`
+- `here`
+- `ggplot2`
+- `readr`
+- `knitr`
+- `gridExtra`
+
+You can install them by running the following command in R:
+
+```r
+install.packages(c("tidyverse", "here", "ggplot2", "readr", "knitr", "gridExtra"))
+```
+
+## 📄 License
+
+This repository is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this work, provided that proper credit is given to the original authors. 
