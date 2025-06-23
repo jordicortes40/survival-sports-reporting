@@ -52,7 +52,7 @@ ggplot(t_year, aes(x=year, y=n)) +
   ylim(0,25) +
   scale_x_continuous(name = 'Year', breaks=2013:2023, minor_breaks = 2013:2023, limits = c(2013, 2023)) +
   ylab('no. articles')
-# ggsave(filename='../../../Figures/figure_S1.png', width = 8, height = 5, dpi = 300)
+# ggsave(filename='../../../Figures/figure_S1.jpeg', width = 8, height = 5, dpi = 300)
 
 ##-- Main goal
 t_classification <- sort(table(d$main_goal), decreasing = TRUE)
@@ -105,7 +105,7 @@ ggplot(t_sports2, aes(x=sport, y=perc)) +
   geom_bar(stat = 'identity',fill='darkblue') +
   ylab('% articles') + 
   coord_flip()
-# ggsave(filename='../../../Figures/figure_sports.png', width = 8, height = 5, dpi = 300)
+# ggsave(filename='../../../Figures/figure_sports.jpeg', width = 8, height = 5, dpi = 300)
 
 
 ##------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
   theme(axis.text = element_text(face='bold'),
         axis.title = element_text(face='bold'))
 
-# ggsave(filename='../../../Figures/figure_S2.png', width = 8, height = 5, dpi = 300)
+# ggsave(filename='../../../Figures/figure_S2.jpeg', width = 8, height = 5, dpi = 300)
 
 
 ##-- Software
@@ -265,4 +265,4 @@ ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) +
   scale_color_manual(values = c("Poorly" = "black", "Partially" = "black", "Well" = "white")) +
   guides(color = guide_none())
   
-# ggsave(filename='../../../Figures/figure_2.png', width = 9, height = 7, dpi = 300)
+# ggsave(filename='../../../Figures/figure_2.jpeg', width = 9, height = 7, dpi = 300)
