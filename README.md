@@ -98,6 +98,4 @@ install.packages(c("readxl", "dplyr", "tidyr", "stringr", "ggplot2", "purrr"))
 
 ## 📄 License
 
-This repository is licensed under the **MIT License**.
-
-You are free to use, modify, and distribute this work, provided that proper credit is given to the original authors. 
+This repository is licensed under the **MIT License**. You are free to use, modify, and distribute this work, provided that proper credit is given to the original authors. 
