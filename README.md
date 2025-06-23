@@ -59,6 +59,7 @@ rigor in the application of survival models in sports science.
 survival-sports-reporting/
 ├── Data/                        # Data files used for the analysis
 │   ├── database_survival_sports_reporting.csv
+│   ├── database_survival_sports_reporting.xlsx
 │   └── SAMPL_table.txt
 │
 ├── Scripts/                     # R scripts for processing and analysis

@@ -36,6 +36,13 @@ d <- merge(d, info_countries, by='country')
 ##-- Year
 # table
 t_year <- d %>% select(year) %>% count(year) 
+t_year_grouped <- t_year %>%
+  mutate(period = case_when(year >= 2013 & year <= 2015 ~ "2013-2015",
+                            year >= 2016 & year <= 2018 ~ "2016-2018",
+                            year >= 2019 & year <= 2023 ~ "2019-2023")) %>%
+  group_by(period) %>%
+  summarise(n = sum(n))  %>%
+  mutate(percentage = round(n/sum(n) * 100, 2))
 
 # plot
 ggplot(t_year, aes(x=year, y=n)) + 
@@ -45,6 +52,7 @@ ggplot(t_year, aes(x=year, y=n)) +
   ylim(0,25) +
   scale_x_continuous(name = 'Year', breaks=2013:2023, minor_breaks = 2013:2023, limits = c(2013, 2023)) +
   ylab('no. articles')
+# ggsave(filename='../../../Figures/figure_S1.png', width = 8, height = 5, dpi = 300)
 
 ##-- Main goal
 t_classification <- sort(table(d$main_goal), decreasing = TRUE)
@@ -97,6 +105,7 @@ ggplot(t_sports2, aes(x=sport, y=perc)) +
   geom_bar(stat = 'identity',fill='darkblue') +
   ylab('% articles') + 
   coord_flip()
+# ggsave(filename='../../../Figures/figure_sports.png', width = 8, height = 5, dpi = 300)
 
 
 ##------------------------------------------------------------------------------
@@ -152,11 +161,12 @@ d_methods <- d_methods0 %>%
   count(variable, category) %>%
   group_by(variable) %>%
   mutate(percentage = (n / sum(n)) * 100) %>%
-  select(variable, category, n, percentage) %>% 
   filter(category=='Yes') %>% 
+  select(variable, n, percentage) %>% 
   arrange(-n)
 
-d_methods$variable <- factor(d_methods$variable, levels=arrange(d_methods,percentage) %>% 
+d_methods$variable <- factor(d_methods$variable, 
+                             levels=arrange(d_methods,percentage) %>% 
                              select(variable) %>% pull)
 
 ggplot(d_methods, aes(x=variable, y=percentage)) + 
@@ -164,7 +174,9 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
   ylab('% articles') + coord_flip() + xlab('') + 
   theme(axis.text = element_text(face='bold'),
         axis.title = element_text(face='bold'))
-  
+
+# ggsave(filename='../../../Figures/figure_S2.png', width = 8, height = 5, dpi = 300)
+
 
 ##-- Software
 d_software <- d %>% select(software) %>% 
@@ -253,3 +265,4 @@ ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) +
   scale_color_manual(values = c("Poorly" = "black", "Partially" = "black", "Well" = "white")) +
   guides(color = guide_none())
   
+# ggsave(filename='../../../Figures/figure_2.png', width = 9, height = 7, dpi = 300)
