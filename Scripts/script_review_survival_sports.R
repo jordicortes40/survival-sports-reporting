@@ -177,6 +177,12 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
 
 # ggsave(filename='../../../Figures/figure_S2.jpeg', width = 8, height = 5, dpi = 300)
 
+# Cross-table methods
+sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Cox model`=='Yes')
+sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Log-rank`=='Yes')
+sum(d_methods0$`Cox model`=='Yes'    & d_methods0$`Log-rank`=='Yes')
+
+
 
 ##-- Software
 d_software <- d %>% select(software) %>% 
@@ -266,3 +272,47 @@ ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) +
   guides(color = guide_none())
   
 # ggsave(filename='../../../Figures/figure_2.jpeg', width = 9, height = 7, dpi = 300)
+
+##-- Plot SAMPL (stratified by years)
+d_sampl0_before <- d %>% filter(year<2020)  %>% select(all_of(VAR_SAMPL)) %>% mutate(year="<2020")
+d_sampl0_after  <- d %>% filter(year>=2020) %>% select(all_of(VAR_SAMPL)) %>% mutate(year="≥2020")
+names(d_sampl0_before) <- names(d_sampl0_after) <- c(VAR_SAMPL_SHORT,'year')
+d_sampl0_year <- rbind(d_sampl0_before,d_sampl0_after)
+
+d_sampl0_year_long <- d_sampl0_year %>%
+  pivot_longer(cols = 1:14, names_to = "variable", values_to = "Value")
+
+d_sampl0_year_prop <- d_sampl0_year_long %>%
+  filter(!is.na(Value)) %>%
+  group_by(year, variable) %>%
+  summarise(
+    n_yes = sum(Value == "Yes"),
+    n_total = n(),
+    prop_yes = n_yes / n_total,
+    .groups = "drop"
+  )
+
+
+d_sampl0_year_prop$variable <- factor(d_sampl0_year_prop$variable,
+                                      levels=arrange(d_sampl[d_sampl$category=='Well',],-percentage) %>% 
+                                                     select(variable) %>% pull)
+
+ggplot(d_sampl0_year_prop, aes(x = variable, y = prop_yes, fill = year)) +
+  geom_col(position = position_dodge(width = 0.9)) +
+  geom_text(
+    aes(label = scales::percent(prop_yes, accuracy = 0.1)),
+    position = position_dodge(width = 0.9),
+    vjust = -0.2, size = 3
+  ) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  labs(
+    y = "Percentage of well-reported studies",
+    x = "",
+    fill = "Year"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5))
+
+# ggsave(filename='../../../Figures/figure_S3.jpeg', width = 12, height = 7, dpi = 300)
+
+
