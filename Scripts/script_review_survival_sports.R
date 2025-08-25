@@ -7,6 +7,7 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(purrr)
+library(janitor)
 
 source('functions_review_survival_sport.R')
 source('parameters_review_survival_sport.R')
@@ -177,12 +178,19 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
 
 # ggsave(filename='../../../Figures/figure_S2.jpeg', width = 8, height = 5, dpi = 300)
 
-# Cross-table methods
+# Cross-table methods between themselves
 sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Cox model`=='Yes')
 sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Log-rank`=='Yes')
 sum(d_methods0$`Cox model`=='Yes'    & d_methods0$`Log-rank`=='Yes')
 
+# Cross-table methods between type of data and sample size.
+my_tab('main_goal','kaplan_meier')
+my_tab('main_goal','cox')
+my_tab('main_goal','log_rank') 
 
+with(d,tapply(d$N,kaplan_meier,summary))
+with(d,tapply(d$N,cox,summary))
+with(d,tapply(d$N,log_rank,summary))
 
 ##-- Software
 d_software <- d %>% select(software) %>% 
@@ -211,7 +219,7 @@ head(cbind(t_share_c,round(100*p_share_c,1)),8)
 d_sampl0 <- d %>% select(all_of(VAR_SAMPL))
 names(d_sampl0) <- VAR_SAMPL_SHORT
 
-##-- Table SAMPL (with NAs)
+##-- Table SAMPL (with NAs)  ---------------------------------------------------
 d_sampl_table <- d_sampl0 %>%
   pivot_longer(cols = everything(), names_to = "variable", values_to = "category") %>%
   count(variable, category) %>%
@@ -231,7 +239,7 @@ write.table(d_sampl_table,'../Data/SAMPL_table.txt',append = FALSE,
 t_purpose <- sort(table(d$reason_purpose_cat), decreasing = TRUE)
 prop.table(t_purpose)
 
-##-- Plot SAMPL (without NAs)
+##-- Plot SAMPL (without NAs)  -------------------------------------------------
 d_sampl <- d_sampl0 %>%
   pivot_longer(cols = everything(), names_to = "variable", values_to = "category") %>%
   na.omit() %>% 
@@ -273,7 +281,7 @@ ggplot(d_sampl, aes(fill=category, y=percentage, x=variable)) +
   
 # ggsave(filename='../../../Figures/figure_2.jpeg', width = 9, height = 7, dpi = 300)
 
-##-- Plot SAMPL (stratified by years)
+##-- Plot SAMPL guideline (stratified by years) --------------------------------
 d_sampl0_before <- d %>% filter(year<2020)  %>% select(all_of(VAR_SAMPL)) %>% mutate(year="<2020")
 d_sampl0_after  <- d %>% filter(year>=2020) %>% select(all_of(VAR_SAMPL)) %>% mutate(year="≥2020")
 names(d_sampl0_before) <- names(d_sampl0_after) <- c(VAR_SAMPL_SHORT,'year')
@@ -285,12 +293,10 @@ d_sampl0_year_long <- d_sampl0_year %>%
 d_sampl0_year_prop <- d_sampl0_year_long %>%
   filter(!is.na(Value)) %>%
   group_by(year, variable) %>%
-  summarise(
-    n_yes = sum(Value == "Yes"),
-    n_total = n(),
-    prop_yes = n_yes / n_total,
-    .groups = "drop"
-  )
+  summarise(n_yes    = sum(Value == "Yes"),
+            n_total  = n(),
+            prop_yes = n_yes / n_total,
+            .groups  = "drop")
 
 
 d_sampl0_year_prop$variable <- factor(d_sampl0_year_prop$variable,
