@@ -1,8 +1,8 @@
-# Methodological Quality and Reporting of Time-to-event Studies in Sports Science and Medicine: A Scoping Review
+# Methodological Quality and Reporting Using Time-to-event Data in Sports Science and Medicine: A Scoping Review
 
 This repository contains the data and analysis code for the manuscript:
 
-**Cortés, J., Nielsen, R. Ø., & Casals, M. (2025). Methodological Quality and Reporting of Time-to-event Studies in Sports Science and Medicine: A Scoping Review.** *(Submitted to BMJ Open Sport & Exercise Medicine)*
+**Cortés, J., Nielsen, R. Ø., & Casals, M. (2025). Methodological Quality and Reporting Using Time-to-event Data in Sports Science and Medicine: A Scoping Review.** *(Submitted to BMJ Open Sport & Exercise Medicine)*
 
 ## Authors
 
