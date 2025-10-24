@@ -17,7 +17,7 @@ d <- read_excel("../Data/database_survival_sports_reporting.xlsx", sheet='Articl
 names(d) <- NEW_NAMES
 
 ##------------------------------------------------------------------------------
-# First table: General Characteristics of the Articles
+# Table 2: General Characteristics of the Articles
 ##------------------------------------------------------------------------------
 
 ##-- Countries
@@ -49,7 +49,6 @@ t_year_grouped <- t_year %>%
 ggplot(t_year, aes(x=year, y=n)) + 
   geom_line(color='darkblue', linewidth=1) +
   geom_point(color='darkblue', size=3) +
-  # geom_smooth(color='orange', linewidth=0.8, se = FALSE) +
   ylim(0,25) +
   scale_x_continuous(name = 'Year', breaks=2013:2023, minor_breaks = 2013:2023, limits = c(2013, 2023)) +
   ylab('no. articles')
@@ -64,7 +63,7 @@ head(cbind(t_classification,round(100*p_classification,1)),8)
 summary(d$N)
 
 ##------------------------------------------------------------------------------
-# Second table: Sports characteristics
+# Table 3: Sports characteristics
 ##------------------------------------------------------------------------------
 
 ##-- Sports
@@ -110,8 +109,12 @@ ggplot(t_sports2, aes(x=sport, y=perc)) +
 
 
 ##------------------------------------------------------------------------------
-# Third table: Statistical analyses used in papers
+# Table 4: Statistical analyses used in papers
 ##------------------------------------------------------------------------------
+
+##-- Filterd data.frames
+dH <- d %>% filter(main_goal=='Health')
+dS <- d %>% filter(main_goal=='Sports Performance Analysis')
 
 ##-- KM estimator
 t_km <- sort(table(d$kaplan_meier), decreasing = TRUE)
@@ -178,10 +181,43 @@ ggplot(d_methods, aes(x=variable, y=percentage)) +
 
 # ggsave(filename='../../../Figures/figure_S2.jpeg', width = 8, height = 5, dpi = 300)
 
+##-- All methods --> Filter by Health
+d_methods0_H <- dH %>% select(all_of(VAR_METHODS))
+names(d_methods0_H) <- VAR_METHODS_SHORT
+d_methods_H <- d_methods0_H %>%
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "category") %>%
+  na.omit() %>% 
+  count(variable, category) %>%
+  group_by(variable) %>%
+  mutate(percentage = (n / sum(n)) * 100) %>%
+  filter(category=='Yes') %>% 
+  select(variable, n, percentage) %>% 
+  arrange(-n)
+d_methods_H$variable <- factor(d_methods_H$variable, 
+                               levels = arrange(d_methods_H,percentage) %>% 
+                               select(variable) %>% pull)
+
+##-- All methods --> Filter by Sports Performance Analysis
+d_methods0_S <- dS %>% select(all_of(VAR_METHODS))
+names(d_methods0_S) <- VAR_METHODS_SHORT
+d_methods_S <- d_methods0_S %>%
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "category") %>%
+  na.omit() %>% 
+  count(variable, category) %>%
+  group_by(variable) %>%
+  mutate(percentage = (n / sum(n)) * 100) %>%
+  filter(category=='Yes') %>% 
+  select(variable, n, percentage) %>% 
+  arrange(-n)
+d_methods_S$variable <- factor(d_methods_S$variable, 
+                               levels = arrange(d_methods_S,percentage) %>% 
+                               select(variable) %>% pull)
+
+
 # Cross-table methods between themselves
 sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Cox model`=='Yes')
-sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Log-rank`=='Yes')
-sum(d_methods0$`Cox model`=='Yes'    & d_methods0$`Log-rank`=='Yes')
+sum(d_methods0$`Kaplan Meier`=='Yes' & d_methods0$`Log-rank` =='Yes')
+sum(d_methods0$`Cox model`   =='Yes' & d_methods0$`Log-rank` =='Yes')
 
 # Cross-table methods between type of data and sample size.
 my_tab('main_goal','kaplan_meier')
@@ -201,15 +237,67 @@ t_software <- sort(table(d_software), decreasing =TRUE)
 p_software <- prop.table(t_software)
 head(cbind(t_software,round(100*p_software,1)))
 
+##-- Software --> Filter by Health
+d_software_H <- dH %>% select(software) %>% 
+  mutate(software = map(software, separate_software)) %>%
+  unnest(software) %>%
+  mutate(software = str_trim(software)) 
+t_software_H <- sort(table(d_software_H), decreasing =TRUE)
+p_software_H <- prop.table(t_software_H)
+head(cbind(t_software_H,round(100*p_software_H,1)),20)
+
+##-- Software --> Filter by Sports Performance
+d_software_S <- dS %>% select(software) %>% 
+  mutate(software = map(software, separate_software)) %>%
+  unnest(software) %>%
+  mutate(software = str_trim(software)) 
+t_software_S <- sort(table(d_software_S), decreasing =TRUE)
+p_software_S <- prop.table(t_software_S)
+head(cbind(t_software_S,round(100*p_software_S,1)),20)
+
 ##-- Data sharing
 t_share_d <- sort(table(d$data_sharing), decreasing = TRUE)
 p_share_d <- prop.table(t_share_d)
-head(cbind(t_share_d,round(100*p_share_d,1)),8)
-
+head(cbind(t_share_d,round(100*p_share_d,1)))
 ##-- Code sharing
 t_share_c <- sort(table(d$code_sharing), decreasing = TRUE)
 p_share_c <- prop.table(t_share_c)
-head(cbind(t_share_c,round(100*p_share_c,1)),8)
+head(cbind(t_share_c,round(100*p_share_c,1)))
+
+##-- Data sharing --> Filter by Health
+t_share_d_H <- sort(table(dH$data_sharing), decreasing = TRUE)
+p_share_d_H <- prop.table(t_share_d_H)
+head(cbind(t_share_d_H,round(100*p_share_d_H,1)))
+##-- Code sharing --> Filter by Health
+t_share_c_H <- sort(table(dH$code_sharing), decreasing = TRUE)
+p_share_c_H <- prop.table(t_share_c_H)
+head(cbind(t_share_c_H,round(100*p_share_c_H,1)))
+
+##-- Data sharing --> Filter by Sports Performance
+t_share_d_S <- sort(table(dS$data_sharing), decreasing = TRUE)
+p_share_d_S <- prop.table(t_share_d_S)
+head(cbind(t_share_d_S,round(100*p_share_d_S,1)))
+##-- Code sharing --> Filter by Sports Performance
+t_share_c_S <- sort(table(dS$code_sharing), decreasing = TRUE)
+p_share_c_S <- prop.table(t_share_c_S)
+head(cbind(t_share_c_S,round(100*p_share_c_S,1)))
+
+##-- Censoring
+t_censoring <- sort(table(d$censore_type), decreasing = TRUE)
+p_censoring <- prop.table(t_censoring)
+head(cbind(t_censoring,round(100*p_censoring,1)))
+
+##-- Censoring --> Filter by Health
+t_censoring_H <- sort(table(dH$censore_type), decreasing = TRUE)
+p_censoring_H <- prop.table(t_censoring_H)
+head(cbind(t_censoring_H,round(100*p_censoring_H,1)))
+
+##-- Censoring --> Filter by Sports Performance
+t_censoring_S <- sort(table(dS$censore_type), decreasing = TRUE)
+p_censoring_S <- prop.table(t_censoring_S)
+head(cbind(t_censoring_S,round(100*p_censoring_S,1)))
+
+
 
 
 ##------------------------------------------------------------------------------
